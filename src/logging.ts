@@ -7,14 +7,29 @@ let currentLogLevel: LoggingLevel = "info";
 // Logging helper function
 export function logMessage(server: Server, level: LoggingLevel, message: string, data?: unknown): void {
   if (shouldLog(level)) {
-    server.notification({
-      method: "notifications/message",
-      params: {
-        level,
-        message,
-        data
+    try {
+      server.notification({
+        method: "notifications/message",
+        params: {
+          level,
+          message,
+          data
+        }
+      });
+    } catch (_error) {
+      const serializedData = typeof data === "undefined" ? "" : ` | ${JSON.stringify(data)}`;
+      // Fallback to console to avoid throwing when server is not yet connected
+      const line = `[${level}] ${message}${serializedData}`;
+      if (level === "error") {
+        console.error(line);
+      } else if (level === "warning") {
+        console.warn(line);
+      } else if (level === "debug") {
+        console.debug(line);
+      } else {
+        console.log(line);
       }
-    });
+    }
   }
 }
 

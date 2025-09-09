@@ -32,12 +32,12 @@ export async function createHttpServer(server: Server): Promise<express.Applicat
       logMessage(server, "debug", `Reusing session: ${sessionId}`);
     } else if (!sessionId && isInitializeRequest(req.body)) {
       // New initialization request
-      logMessage(server, "info", "Creating new HTTP session");
+      console.log("Creating new HTTP session");
       transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: (sessionId) => {
           transports[sessionId] = transport;
-          logMessage(server, "debug", `Session initialized: ${sessionId}`);
+          console.debug(`Session initialized: ${sessionId}`);
         },
         // DNS rebinding protection disabled by default for backwards compatibility
         // For production, consider enabling:
@@ -48,7 +48,7 @@ export async function createHttpServer(server: Server): Promise<express.Applicat
       // Clean up transport when closed
       transport.onclose = () => {
         if (transport.sessionId) {
-          logMessage(server, "debug", `Session closed: ${transport.sessionId}`);
+          console.debug(`Session closed: ${transport.sessionId}`);
           delete transports[transport.sessionId];
         }
       };

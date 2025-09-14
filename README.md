@@ -100,7 +100,6 @@ export HTTPS_PROXY=http://username:password@proxy.company.com:8080
 
 ### [NPX](https://www.npmjs.com/package/mcp-searxng)
 
-#### Basic Configuration
 ```json
 {
   "mcpServers": {
@@ -114,6 +113,9 @@ export HTTPS_PROXY=http://username:password@proxy.company.com:8080
   }
 }
 ```
+
+<details>
+<summary>Additional NPX Configuration Options</summary>
 
 #### With Authentication
 ```json
@@ -167,6 +169,8 @@ export HTTPS_PROXY=http://username:password@proxy.company.com:8080
   }
 }
 ```
+
+</details>
 
 ### [NPM](https://www.npmjs.com/package/mcp-searxng)
 
@@ -174,7 +178,6 @@ export HTTPS_PROXY=http://username:password@proxy.company.com:8080
 npm install -g mcp-searxng
 ```
 
-#### Basic Configuration
 ```json
 {
   "mcpServers": {
@@ -187,6 +190,9 @@ npm install -g mcp-searxng
   }
 }
 ```
+
+<details>
+<summary>Additional NPM Configuration Options</summary>
 
 #### With Authentication
 ```json
@@ -237,6 +243,8 @@ npm install -g mcp-searxng
   }
 }
 ```
+
+</details>
 
 ### Docker
 
@@ -246,7 +254,6 @@ npm install -g mcp-searxng
 docker pull isokoliuk/mcp-searxng:latest
 ```
 
-##### Basic Configuration
 ```json
 {
   "mcpServers": {
@@ -265,7 +272,10 @@ docker pull isokoliuk/mcp-searxng:latest
 }
 ```
 
-##### With Authentication
+<details>
+<summary>Additional Docker Configuration Options</summary>
+
+#### With Authentication
 ```json
 {
   "mcpServers": {
@@ -288,7 +298,7 @@ docker pull isokoliuk/mcp-searxng:latest
 }
 ```
 
-##### With Proxy Support
+#### With Proxy Support
 ```json
 {
   "mcpServers": {
@@ -311,7 +321,7 @@ docker pull isokoliuk/mcp-searxng:latest
 }
 ```
 
-##### With Authentication and Proxy Support
+#### With Authentication and Proxy Support
 ```json
 {
   "mcpServers": {
@@ -337,6 +347,8 @@ docker pull isokoliuk/mcp-searxng:latest
   }
 }
 ```
+
+</details>
 
 #### Build Locally
 
@@ -344,7 +356,6 @@ docker pull isokoliuk/mcp-searxng:latest
 docker build -t mcp-searxng:latest -f Dockerfile .
 ```
 
-##### Basic Configuration
 ```json
 {
   "mcpServers": {
@@ -363,7 +374,10 @@ docker build -t mcp-searxng:latest -f Dockerfile .
 }
 ```
 
-##### With Authentication
+<details>
+<summary>Additional Build Locally Configuration Options</summary>
+
+#### With Authentication
 ```json
 {
   "mcpServers": {
@@ -386,7 +400,7 @@ docker build -t mcp-searxng:latest -f Dockerfile .
 }
 ```
 
-##### With Proxy Support
+#### With Proxy Support
 ```json
 {
   "mcpServers": {
@@ -409,7 +423,7 @@ docker build -t mcp-searxng:latest -f Dockerfile .
 }
 ```
 
-##### With Authentication and Proxy Support
+#### With Authentication and Proxy Support
 ```json
 {
   "mcpServers": {
@@ -435,6 +449,87 @@ docker build -t mcp-searxng:latest -f Dockerfile .
   }
 }
 ```
+
+</details>
+
+#### Docker Compose
+
+Create a `docker-compose.yml` file:
+
+```yaml
+services:
+  mcp-searxng:
+    image: isokoliuk/mcp-searxng:latest
+    stdin_open: true
+    environment:
+      - SEARXNG_URL=YOUR_SEARXNG_INSTANCE_URL
+```
+
+Then configure your MCP client:
+
+```json
+{
+  "mcpServers": {
+    "searxng": {
+      "command": "docker-compose",
+      "args": ["run", "--rm", "mcp-searxng"]
+    }
+  }
+}
+```
+
+<details>
+<summary>Additional Docker Compose Configuration Options</summary>
+
+#### With Authentication
+```yaml
+services:
+  mcp-searxng:
+    image: isokoliuk/mcp-searxng:latest
+    stdin_open: true
+    environment:
+      - SEARXNG_URL=YOUR_SEARXNG_INSTANCE_URL
+      - AUTH_USERNAME=your_username
+      - AUTH_PASSWORD=your_password
+```
+
+#### With Proxy Support
+```yaml
+services:
+  mcp-searxng:
+    image: isokoliuk/mcp-searxng:latest
+    stdin_open: true
+    environment:
+      - SEARXNG_URL=YOUR_SEARXNG_INSTANCE_URL
+      - HTTP_PROXY=http://proxy.company.com:8080
+      - HTTPS_PROXY=http://proxy.company.com:8080
+```
+
+#### With Authentication and Proxy Support
+```yaml
+services:
+  mcp-searxng:
+    image: isokoliuk/mcp-searxng:latest
+    stdin_open: true
+    environment:
+      - SEARXNG_URL=YOUR_SEARXNG_INSTANCE_URL
+      - AUTH_USERNAME=your_username
+      - AUTH_PASSWORD=your_password
+      - HTTP_PROXY=http://proxy.company.com:8080
+      - HTTPS_PROXY=http://proxy.company.com:8080
+```
+
+#### Using Local Build
+```yaml
+services:
+  mcp-searxng:
+    build: .
+    stdin_open: true
+    environment:
+      - SEARXNG_URL=YOUR_SEARXNG_INSTANCE_URL
+```
+
+</details>
 
 ### HTTP Transport (Optional)
 
@@ -448,7 +543,6 @@ The server supports both STDIO (default) and HTTP transports:
 - **Best for**: Web-based applications and remote MCP clients
 - **Usage**: Set the `MCP_HTTP_PORT` environment variable
 
-##### Basic HTTP Server Configuration
 ```json
 {
   "mcpServers": {
@@ -463,7 +557,10 @@ The server supports both STDIO (default) and HTTP transports:
 }
 ```
 
-##### HTTP Server with Authentication
+<details>
+<summary>Additional HTTP Transport Configuration Options</summary>
+
+#### HTTP Server with Authentication
 ```json
 {
   "mcpServers": {
@@ -480,7 +577,7 @@ The server supports both STDIO (default) and HTTP transports:
 }
 ```
 
-##### HTTP Server with Proxy Support
+#### HTTP Server with Proxy Support
 ```json
 {
   "mcpServers": {
@@ -497,7 +594,7 @@ The server supports both STDIO (default) and HTTP transports:
 }
 ```
 
-##### HTTP Server with Authentication and Proxy Support
+#### HTTP Server with Authentication and Proxy Support
 ```json
 {
   "mcpServers": {
@@ -515,6 +612,8 @@ The server supports both STDIO (default) and HTTP transports:
   }
 }
 ```
+
+</details>
 
 **HTTP Endpoints:**
 - **MCP Protocol**: `POST/GET/DELETE /mcp` 

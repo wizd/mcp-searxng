@@ -15,7 +15,7 @@ import {
 import { WEB_SEARCH_TOOL, READ_URL_TOOL, isSearXNGWebSearchArgs } from "./types.js";
 import { logMessage, setLogLevel } from "./logging.js";
 import { performWebSearch } from "./search.js";
-import { fetchAndConvertToMarkdown } from "./url-reader.js";
+//import { fetchAndConvertToMarkdown } from "./url-reader.js";
 import { createConfigResource, createHelpResource } from "./resources.js";
 import { createHttpServer } from "./http-server.js";
 import { validateEnvironment as validateEnv } from "./error-handler.js";
@@ -99,7 +99,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           },
         ],
       };
-    } else if (name === "web_url_read") {
+    } /*else if (name === "web_url_read") {
       if (!isWebUrlReadArgs(args)) {
         throw new Error("Invalid arguments for URL reading");
       }
@@ -114,7 +114,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           },
         ],
       };
-    } else {
+    } */else {
       throw new Error(`Unknown tool: ${name}`);
     }
   } catch (error) {

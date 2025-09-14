@@ -12,10 +12,9 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 // Import modularized functionality
-import { WEB_SEARCH_TOOL, READ_URL_TOOL, isSearXNGWebSearchArgs } from "./types.js";
+import { WEB_SEARCH_TOOL, isSearXNGWebSearchArgs } from "./types.js";
 import { logMessage, setLogLevel } from "./logging.js";
 import { performWebSearch } from "./search.js";
-import { fetchAndConvertToMarkdown } from "./url-reader.js";
 import { createConfigResource, createHelpResource } from "./resources.js";
 import { createHttpServer } from "./http-server.js";
 import { validateEnvironment as validateEnv } from "./error-handler.js";
@@ -29,15 +28,7 @@ export { packageVersion };
 // Global state for logging level
 let currentLogLevel: LoggingLevel = "info";
 
-// Type guard for URL reading args
-export function isWebUrlReadArgs(args: unknown): args is { url: string } {
-  return (
-    typeof args === "object" &&
-    args !== null &&
-    "url" in args &&
-    typeof (args as { url: string }).url === "string"
-  );
-}
+//
 
 // Server implementation
 const server = new Server(
@@ -54,10 +45,6 @@ const server = new Server(
           description: WEB_SEARCH_TOOL.description,
           schema: WEB_SEARCH_TOOL.inputSchema,
         },
-        web_url_read: {
-          description: READ_URL_TOOL.description,
-          schema: READ_URL_TOOL.inputSchema,
-        },
       },
     },
   }
@@ -67,7 +54,7 @@ const server = new Server(
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   logMessage(server, "debug", "Handling list_tools request");
   return {
-    tools: [WEB_SEARCH_TOOL, READ_URL_TOOL],
+    tools: [WEB_SEARCH_TOOL],
   };
 });
 
@@ -90,21 +77,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         args.language,
         args.safesearch
       );
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: result,
-          },
-        ],
-      };
-    } else if (name === "web_url_read") {
-      if (!isWebUrlReadArgs(args)) {
-        throw new Error("Invalid arguments for URL reading");
-      }
-
-      const result = await fetchAndConvertToMarkdown(server, args.url);
 
       return {
         content: [

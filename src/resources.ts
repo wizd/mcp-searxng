@@ -17,7 +17,7 @@ export function createConfigResource() {
       currentLogLevel: getCurrentLogLevel()
     },
     capabilities: {
-      tools: ["searxng_web_search", "web_url_read"],
+      tools: ["searxng_web_search"],
       logging: true,
       resources: true,
       transports: process.env.MCP_HTTP_PORT ? ["stdio", "http"] : ["stdio"]
@@ -31,11 +31,11 @@ export function createHelpResource() {
   return `# SearXNG MCP Server Help
 
 ## Overview
-This is a Model Context Protocol (MCP) server that provides web search capabilities through SearXNG and URL content reading functionality.
+This is a Model Context Protocol (MCP) server that provides web search capabilities through SearXNG.
 
 ## Available Tools
 
-### 1. searxng_web_search
+### searxng_web_search
 Performs web searches using the configured SearXNG instance.
 
 **Parameters:**
@@ -45,11 +45,7 @@ Performs web searches using the configured SearXNG instance.
 - \`language\` (optional): Language code like "en", "fr", "de" (default: "all")
 - \`safesearch\` (optional): Safe search level - "0" (none), "1" (moderate), "2" (strict)
 
-### 2. web_url_read
-Reads and converts web page content to Markdown format.
-
-**Parameters:**
-- \`url\` (required): The URL to fetch and convert
+\
 
 ## Configuration
 
@@ -77,18 +73,14 @@ Tool: searxng_web_search
 Args: {"query": "latest AI developments", "time_range": "day"}
 \`\`\`
 
-### Read a specific article
-\`\`\`
-Tool: web_url_read  
-Args: {"url": "https://example.com/article"}
-\`\`\`
+\
 
 ## Troubleshooting
 
 1. **"SEARXNG_URL not set"**: Configure the SEARXNG_URL environment variable
 2. **Network errors**: Check if SearXNG is running and accessible
 3. **Empty results**: Try different search terms or check SearXNG instance
-4. **Timeout errors**: The server has a 10-second timeout for URL fetching
+\
 
 Use logging level "debug" for detailed request information.
 
